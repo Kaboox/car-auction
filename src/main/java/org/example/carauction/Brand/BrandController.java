@@ -2,6 +2,7 @@ package org.example.carauction.Brand;
 
 import lombok.RequiredArgsConstructor;
 import org.example.carauction.Brand.Model.Brand;
+import org.example.carauction.Brand.Model.CreateBrandCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +25,8 @@ public class BrandController {
 
     @PostMapping("/brands")
     @ResponseStatus(HttpStatus.CREATED)
-    public Brand create(@RequestBody Brand newBrand) {
-       return brandService.create(newBrand);
+    public Brand create(@RequestBody CreateBrandCommand createBrandCommand) {
+       return brandService.create(createBrandCommand);
 
     }
 }

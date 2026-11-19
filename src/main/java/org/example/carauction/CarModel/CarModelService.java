@@ -34,8 +34,8 @@ public class CarModelService {
             throw new IllegalArgumentException("Car model segment cannot be null");
         }
 
-        Brand brand = brandRepository.findById(carModel.get)
-                .orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+//        Brand brand = brandRepository.findById(carModel.get)
+//                .orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
         String trimmedName = carModel.getName().trim();
 
@@ -44,7 +44,7 @@ public class CarModelService {
         }
 
         carModel.setName(trimmedName);
-        carModel.setBrand(brand);
+//        carModel.setBrand(brand);
 
         return carModelRepository.save(carModel);
     }

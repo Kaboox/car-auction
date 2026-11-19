@@ -2,6 +2,7 @@ package org.example.carauction.Brand;
 
 import lombok.RequiredArgsConstructor;
 import org.example.carauction.Brand.Model.Brand;
+import org.example.carauction.Brand.Model.CreateBrandCommand;
 import org.example.carauction.common.exception.ResourceAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
@@ -16,26 +17,28 @@ public class BrandService {
         return brandRepository.findAll();
     }
 
-    public Brand create(Brand brand) {
-        if (brand == null) {
+    public Brand create(CreateBrandCommand createBrandCommand) {
+        if (createBrandCommand == null) {
             throw new IllegalArgumentException("Cannot pass null brand");
         }
 
-        if (brand.getName() == null || brand.getName().isBlank()) {
+        if (createBrandCommand.name() == null || createBrandCommand.name().isBlank()) {
             throw new IllegalArgumentException("Brand name cannot be null or empty");
         }
 
-        if (brand.getCountryOfOrigin() == null || brand.getCountryOfOrigin().isBlank()) {
+        if (createBrandCommand.countryOfOrigin()== null || createBrandCommand.countryOfOrigin().isBlank()) {
             throw new IllegalArgumentException("Brand country of origin cannot be null or empty");
         }
 
-        if (brandRepository.existsByNameIgnoreCase(brand.getName().trim())) {
-            throw new ResourceAlreadyExistsException("Brand: " + brand.getName() + " already exists in db");
+        if (brandRepository.existsByNameIgnoreCase(createBrandCommand.name().trim())) {
+            throw new ResourceAlreadyExistsException("Brand: " + createBrandCommand.name() + " already exists in db");
         }
 
-        brand.setName(brand.getName().trim());
-        brand.setCountryOfOrigin(brand.getCountryOfOrigin().trim());
+        Brand brandToSave= new Brand();
 
-        return brandRepository.save(brand);
+        brandToSave.setName(createBrandCommand.name().trim());
+        brandToSave.setCountryOfOrigin(createBrandCommand.countryOfOrigin().trim());
+
+        return brandRepository.save(brandToSave);
     }
 }
