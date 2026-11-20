@@ -36,5 +36,5 @@ public class Brand {
     private String countryOfOrigin;
 
     @OneToMany(mappedBy = "brand")
-    private Set<CarModel> carModel;
+    private Set<CarModel> carModels;
 }

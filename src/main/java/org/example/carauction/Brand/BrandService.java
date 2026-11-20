@@ -2,6 +2,7 @@ package org.example.carauction.Brand;
 
 import lombok.RequiredArgsConstructor;
 import org.example.carauction.Brand.Model.Brand;
+import org.example.carauction.Brand.Model.BrandDto;
 import org.example.carauction.Brand.Model.CreateBrandCommand;
 import org.example.carauction.common.exception.ResourceAlreadyExistsException;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,14 @@ import java.util.List;
 public class BrandService {
     private final BrandRepository brandRepository;
 
-    public List<Brand> getAll() {
-        return brandRepository.findAll();
+    public List<BrandDto> getAll() {
+        return brandRepository.findAll()
+                .stream()
+                .map(BrandDto::fromEntity)
+                .toList();
     }
 
-    public Brand create(CreateBrandCommand createBrandCommand) {
+    public BrandDto create(CreateBrandCommand createBrandCommand) {
         if (createBrandCommand == null) {
             throw new IllegalArgumentException("Cannot pass null brand");
         }
@@ -34,11 +38,8 @@ public class BrandService {
             throw new ResourceAlreadyExistsException("Brand: " + createBrandCommand.name() + " already exists in db");
         }
 
-        Brand brandToSave= new Brand();
+        Brand brandToSave = createBrandCommand.toEntity();
 
-        brandToSave.setName(createBrandCommand.name().trim());
-        brandToSave.setCountryOfOrigin(createBrandCommand.countryOfOrigin().trim());
-
-        return brandRepository.save(brandToSave);
+        return BrandDto.fromEntity(brandRepository.save(brandToSave));
     }
 }
