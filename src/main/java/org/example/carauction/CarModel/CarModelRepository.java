@@ -1,4 +1,9 @@
 package org.example.carauction.CarModel;
 
-public interface CarModelRepository {
+import org.example.carauction.CarModel.Model.CarModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CarModelRepository extends JpaRepository<CarModel, Long> {
+
+    public boolean existsByNameIgnoreCase(String name);
 }
