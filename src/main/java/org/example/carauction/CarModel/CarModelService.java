@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.carauction.Brand.BrandRepository;
 import org.example.carauction.Brand.Model.Brand;
 import org.example.carauction.CarModel.Model.CarModel;
+import org.example.carauction.CarModel.Model.CarModelDto;
+import org.example.carauction.CarModel.Model.CreateCarModelCommand;
 import org.example.carauction.common.exception.ResourceAlreadyExistsException;
 import org.example.carauction.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,35 +19,32 @@ public class CarModelService {
     private final CarModelRepository carModelRepository;
     private final BrandRepository brandRepository;
 
-    public List<CarModel> getCarModels() {
-        return carModelRepository.findAll();
+    public List<CarModelDto> getCarModels() {
+        return carModelRepository.findAll()
+                .stream().map(CarModelDto::fromEntity)
+                .toList();
     }
 
-    public CarModel create(CarModel carModel) {
-        if (carModel == null) {
+    public CarModelDto create(CreateCarModelCommand command) {
+        if (command == null) {
             throw new IllegalArgumentException("Car model cannot be null");
         }
 
-        if (carModel.getName() == null || carModel.getName().isBlank()) {
+        if (command.name() == null || command.name().isBlank()) {
             throw new IllegalArgumentException("Car model name cannot be null or empty");
         }
 
-        if (carModel.getSegment() == null) {
+        if (command.segment() == null) {
             throw new IllegalArgumentException("Car model segment cannot be null");
         }
 
-//        Brand brand = brandRepository.findById(carModel.get)
-//                .orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+        Brand brand = brandRepository.findById(command.brandId())
+                .orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
-        String trimmedName = carModel.getName().trim();
 
-        if (carModelRepository.existsByNameIgnoreCase(trimmedName)) {
-            throw new ResourceAlreadyExistsException("Car model: " + trimmedName + " already exists in db");
-        }
+        CarModel carModel = command.toEntity();
+        carModel.setBrand(brand);
 
-        carModel.setName(trimmedName);
-//        carModel.setBrand(brand);
-
-        return carModelRepository.save(carModel);
+        return CarModelDto.fromEntity(carModelRepository.save(carModel));
     }
 }

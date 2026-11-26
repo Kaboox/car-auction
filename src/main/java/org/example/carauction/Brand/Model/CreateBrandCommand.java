@@ -8,8 +8,8 @@ public record CreateBrandCommand(
 ) {
     public Brand toEntity() {
         return Brand.builder()
-                .name(name)
-                .countryOfOrigin(countryOfOrigin)
+                .name(name.trim())
+                .countryOfOrigin(countryOfOrigin.trim())
                 .carModels(Set.of())
                 .build();
     }
