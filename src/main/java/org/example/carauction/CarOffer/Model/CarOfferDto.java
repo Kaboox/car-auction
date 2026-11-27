@@ -17,6 +17,8 @@ public record CarOfferDto(
         Boolean accidentFree,
         Status status,
         LocalDateTime createdAt,
-        Long carModelId
+        Long carModelId,
+        String carModelName,
+        String brandName
 ) {
 }
