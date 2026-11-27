@@ -75,7 +75,7 @@ Kompozycja osadzona w encji `CarOffer` (`@Embedded`), grupująca parametry ukła
 | Metoda | Endpoint | Opis | Kody HTTP |
 | :--- | :--- | :--- | :--- |
 | `POST` | `/api/v1/brands` | Dodanie nowej marki | `201`, `400`, `409` |
-| `POST` | `/api/v1/brands/{brandId}/models` | Dodanie modelu do marki | `201`, `404`, `409` |
+| `POST` | `/api/v1/models` | Dodanie modelu do marki | `201`, `404`, `409` |
 | `GET` | `/api/v1/brands` | Pobranie listy marek wraz z ich modelami | `200` |
 | `POST` | `/api/v1/offers` | Wystawienie nowego ogłoszenia | `201`, `400`, `404`, `409` |
 | `GET` | `/api/v1/offers/{id}` | Szczegóły pojedynczego ogłoszenia | `200`, `404` |
