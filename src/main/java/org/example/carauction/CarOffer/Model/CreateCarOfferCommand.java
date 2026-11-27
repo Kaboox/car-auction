@@ -8,7 +8,7 @@ public record CreateCarOfferCommand(
         String vin,
         Integer productionYear,
         Integer mileage,
-        BigDecimal price, // czy to przekazuje w jsonie czy mapuje z stringa/inta w serwisie
+        BigDecimal price,
         Engine engine,
         Boolean accidentFree,
         Long carModelId

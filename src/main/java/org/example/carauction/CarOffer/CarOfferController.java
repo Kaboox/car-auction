@@ -25,8 +25,10 @@ public class CarOfferController {
     }
 
     @PostMapping
-    public CarOffer create(@RequestBody CreateCarOfferCommand) {
-
+    public CarOffer create(@RequestBody CreateCarOfferCommand command) {
+        if (command == null) {
+            throw new IllegalArgumentException("Car Offer create command cannot be null");
+        }
     }
 
 }
